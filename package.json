@@ -11,6 +11,7 @@
     "typescript": "^5.2.2"
   },
   "scripts": {
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "playwright test"
   }
 }

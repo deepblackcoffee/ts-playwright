@@ -1,18 +1,41 @@
-import { test, expect } from '@playwright/test';
+import { test } from '@playwright/test'
+import { Page } from '@playwright/test'
+import * as navigate from 'common/navigate'
+import assert from 'common/assertions'
+import { SamplePlaywrightPage } from 'page-objects-examples/sample-playwright-page'
+import { SampleHeader } from 'page-objects-examples/sample-header'
 
-test('has title', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+test.describe('Test Navigations on Playwright', () => {
+    let testPage: Page
+    let header: SampleHeader
 
-  // Expect a title "to contain" a substring.
-  await expect(page).toHaveTitle(/Playwright/);
-});
+    test.beforeAll(async ({ browser }) => {
+        testPage = await navigate.getNewPage(browser)
+        header = new SampleHeader(testPage)
+    })
 
-test('get started link', async ({ page }) => {
-  await page.goto('https://playwright.dev/');
+    test('Navigate to Playwright page', async () => {
+        const playwrightPage = await new SamplePlaywrightPage(testPage).goTo()
 
-  // Click the get started link.
-  await page.getByRole('link', { name: 'Get started' }).click();
+        await test.step('Verify that the header is visible', async () => {
+            await assert.isVisible(header.home)
+        })
 
-  // Expects page to have a heading with the name of Installation.
-  await expect(page.getByRole('heading', { name: 'Installation' })).toBeVisible();
-});
+        await test.step('Go to Get Started page', async () => {
+            await playwrightPage.clickGetStarted()
+        })
+
+        await test.step('Verify that the header is visible', async () => {
+            await assert.isVisible(header.home)
+        })
+
+        await test.step('Go to Python page', async () => {
+            await header.goToPython()
+            await header.ready()
+        })
+
+        await test.step('Verify that the header is visible', async () => {
+            await assert.isHidden(header.home)
+        })
+    })
+})
