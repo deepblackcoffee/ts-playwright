@@ -35,7 +35,7 @@ test.describe('Test Navigations on Playwright', () => {
         })
 
         await test.step('Verify that the header is visible', async () => {
-            await assert.isHidden(header.home)
+            await assert.isVisible(header.home)
         })
     })
 })
