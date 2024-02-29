@@ -17,5 +17,5 @@
       "jsx": "preserve",
       "lib": ["esnext", "dom", "dom.iterable"]
   },
-  "include": ["common", "page-objects-examples", "tests", "playwright.config.ts", "janitor.config.ts", "scripts"]
+  "include": ["common", "page-objects-examples", "tests", "playwright.config.ts"]
 }
